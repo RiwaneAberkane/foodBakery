@@ -1,10 +1,16 @@
 const Course = require("../models/course");
+const User = require("../models/user");
 
 // POST ------------------------
 
 exports.createCourse = async (req, res) => {
   try {
-    const course = new Course(req.body);
+    const course = new Course({
+      title: req.body.title,
+      description: req.body.description,
+      maxStudents: req.body.maxStudents,
+      cost: req.body.cost,
+    });
     await course.save();
     res.send(course);
   } catch (err) {

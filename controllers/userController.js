@@ -2,35 +2,34 @@ const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const verifyToken = require("../middleware/auth");
+const subscriber = require("../models/subscriber");
 
 // POST ------------------------
 
 exports.createUser = async (req, res) => {
   const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
   try {
-    const user = new User({
-      name: req.body.name,
-      lastName: req.body.lastName,
-      email: req.body.email,
+    const { name, lastName, email, password } = req.body;
+    const user = await User.create({
+      name,
+      lastName,
+      email,
       password: hashedPassword,
-      zipCode: req.body.zipCode,
     });
 
-    // Valider si le user existe déja
-    const oldUser = await User.findOne({ email: user.email });
-    if (oldUser) {
-      return res.status(200).send({
-        success: false,
-        message: "User already exists, please login",
-      });
+    const isSubscribed = await subscriber.findOne({ email });
+    if (isSubscribed) {
+      user.subscribedAccount = isSubscribed._id;
     }
+
     await user.save();
     user.token = jwt.sign(
       { user_id: user.id, user_email: user.email },
       process.env.TOKEN_KEY,
       { expiresIn: "2h" }
     );
-    res.send(user);
+    res.send({ user: user, message: "User created" });
   } catch (err) {
     res.send(err);
   }

@@ -1,28 +1,34 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const courseSchema = new mongoose.Schema({
-  title      : {
-    type    : String,
-    required: true,
-    unique  : true
+const courseSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    maxStudents: {
+      type: Number,
+      default: 0,
+      min: [0, "Un cours ne peut pas avoir un nombre négatif d'étudiants"],
+    },
+    cost: {
+      type: Number,
+      default: 0,
+      min: [0, "Le prix du cours ne peut pas être négatif"],
+    },
+    // author: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "User",
+    // },
   },
-  description: {
-    type    : String,
-    required: true
-  },
-  maxStudents: {
-    type   : Number,
-    default: 0,
-    min    : [ 0, "Un cours ne peut pas avoir un nombre négatif d'étudiants" ]
-  },
-  cost       : {
-    type   : Number,
-    default: 0,
-    min    : [ 0, "Le prix du cours ne peut pas être négatif" ]
-  },
-},
-    {
-  timestamps: true
-})
+  {
+    timestamps: true,
+  }
+);
 
-module.exports = mongoose.model('Course', courseSchema);
+module.exports = mongoose.model("Course", courseSchema);
