@@ -11,3 +11,11 @@ const errorHandler = (err, req, res, next) => {
 };
 
 module.exports = errorHandler;
+
+// const errorController = (req, res, next) => {
+//   const error = new Error("Not Found");
+//   error.status = 404;
+//   next(error);
+// };
+
+// module.exports = errorController;

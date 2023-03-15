@@ -15,6 +15,15 @@ exports.createUser = async (req, res) => {
       password: hashedPassword,
       zipCode: req.body.zipCode,
     });
+
+    // Valider si le user existe déja
+    const oldUser = await User.findOne({ email: user.email });
+    if (oldUser) {
+      return res.status(200).send({
+        success: false,
+        message: "User already exists, please login",
+      });
+    }
     await user.save();
     user.token = jwt.sign(
       { user_id: user.id, user_email: user.email },
@@ -111,4 +120,14 @@ exports.deleteUser = async (req, res) => {
   } catch (err) {
     console.error(err);
   }
+};
+
+// LOGOUT --------------
+
+exports.logout = async (req, res) => {
+  User.findById(req.user._id).then((rUser) => {
+    req.logout();
+    res.send({ message: "Logout Success" });
+    // res.redirect("/");
+  });
 };
