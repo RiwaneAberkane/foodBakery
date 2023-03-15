@@ -19,6 +19,6 @@ module.exports = app;
 
 app.use(errorHandler);
 
-app.use("/courses", courseRouter);
-app.use("/subscribers", subscriberRouter);
-app.use("/users", userRouter);
+app.use("/api/courses", courseRouter);
+app.use("/api/subscribers", subscriberRouter);
+app.use("/api/users", userRouter);

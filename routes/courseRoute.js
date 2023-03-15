@@ -5,12 +5,12 @@ const verifyToken = require("../middleware/auth");
 
 courseRouter.get("/", courseController.getAllCourses);
 
-courseRouter.post("/create", verifyToken, courseController.createCourse);
+courseRouter.post("/create", courseController.createCourse);
 
 courseRouter.get("/:id", courseController.getCourse);
 
-courseRouter.put("/:id/update", verifyToken, courseController.updateCourses);
+courseRouter.put("/:id/update", courseController.updateCourses);
 
-courseRouter.delete("/:id/delete", verifyToken, courseController.deleteCourses);
+courseRouter.delete("/:id/delete", courseController.deleteCourses);
 
 module.exports = courseRouter;
