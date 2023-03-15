@@ -21,10 +21,6 @@ const courseSchema = new mongoose.Schema(
       default: 0,
       min: [0, "Le prix du cours ne peut pas être négatif"],
     },
-    // author: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "User",
-    // },
   },
   {
     timestamps: true,
